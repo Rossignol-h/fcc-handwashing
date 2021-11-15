@@ -1,11 +1,14 @@
 <script>
- import ProgressBar from './ProgressBar.svelte'
 
+//pour l'audio
+import { createEventDispatcher } from "svelte"
+const dispatch = createEventDispatcher()
+
+// pour la barre de progression 
+ import ProgressBar from './ProgressBar.svelte'
  const totalSeconds = 20
  let secondLeft = totalSeconds
  let isRunning = false
- 
-
  $:progress = ((totalSeconds - secondLeft) /totalSeconds) *100
 
  function startTimer () {
@@ -17,6 +20,7 @@
       clearInterval(timer)
       isRunning = false
       secondLeft = totalSeconds
+      dispatch("end") // pour audio
      }
   }, 1000);
 }
