@@ -3,9 +3,11 @@ import commonjs from "@rollup/plugin-commonjs"
 import resolve from "@rollup/plugin-node-resolve"
 import livereload from "rollup-plugin-livereload"
 import { terser } from "rollup-plugin-terser"
+// new pour le css
 import css from "rollup-plugin-css-only"
-
 const production = !process.env.ROLLUP_WATCH
+// new pour github pages (npm i --save -dev gh-pages)
+import ghPages from "gh-pages"
 
 function serve() {
   let server
@@ -72,7 +74,12 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser(),
+    // a partir de && ghPages c nouveau pour config github pages
+    production &&
+      terser() &&
+      ghPages.publish("public", (err) => {
+        console.log("pubished to github", err)
+      }),
   ],
   watch: {
     clearScreen: false,
